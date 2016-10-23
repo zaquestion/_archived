@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+    	<title>Pyschedelic Disc Hospital!</title>
+	<script type="text/javascript" src="engine/phaser.min.js"></script>
+	<script type="text/javascript" src="objects/player.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(853, 400, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+function preload() {
+
+    game.load.image('zaq', 'content/characters/zaq2.png');
+    game.load.image('kevin', 'content/characters/Kevin2.png');
+    game.load.image('background', 'content/backgrounds/Hospital.png');
+    game.load.image('disc', 'content/general/disc2.png');
+  	game.load.image('fence', 'content/general/fence.png')
+}
+
+var zaq;
+var kevin;
+var disc;
+
+var fences;
+
+var cursors;
+
+function create() {
+
+    //  We're going to be using physics, so enable the Arcade Physics system
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    //  A simple background for our game
+    game.add.sprite(0, 0, 'background');
+    disc = game.add.sprite(400, 350, 'disc');
+
+  	zaq = new Player(game, 'zaq', 100, 600);
+  	kevin = new Player(game, 'kevin', 725, 600);
+    kevin.sprite.scale.x = -1;
+  	// The zaq and its settings
+
+  	fences = game.add.group();
+    fences.enableBody = true;
+
+    var fence = fences.create(175, game.height - 53, 'fence');
+    fence.anchor.setTo(.5, 0);
+    fence.scale.x = 1;
+    fence.body.immovable = true;
+
+    fence = fences.create(game.width - 175, game.height - 53, 'fence');
+    fence.anchor.setTo(.5, 0);
+    fence.scale.x = -1;
+    fence.body.immovable = true;
+
+}
+
+function update() {
+  game.physics.arcade.collide(zaq.sprite, fences);
+  game.physics.arcade.collide(kevin.sprite, fences);
+	zaq.update();
+	kevin.update();
+}
+
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-52115017-1', 'zaqthefreshman.com');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>
